@@ -1,6 +1,4 @@
-import { QRCodeSVG } from 'qrcode.react'
 import { BrandMark } from './BrandMark'
-import { ANDROID_DOWNLOAD_URL, IOS_DOWNLOAD_URL } from './config'
 import girassol from './assets/plants/girassol.png'
 import semente from './assets/plants/semente.png'
 import broto from './assets/plants/broto.png'
@@ -9,20 +7,22 @@ import arvore from './assets/plants/arvore.png'
 import pitanga from './assets/plants/pitanga.png'
 import './App.css'
 
-const stores = [
+const downloads = [
   {
-    id: 'android' as const,
-    name: 'Android',
-    store: 'Google Play',
-    url: ANDROID_DOWNLOAD_URL,
-    hint: 'Celulares e tablets Android',
+    id: 'site' as const,
+    name: 'Site',
+    label: 'Abra no celular',
+    src: '/qrCodeSite.png',
+    alt: 'QR code para abrir o site do Soulie',
+    hint: 'Link desta página',
   },
   {
-    id: 'ios' as const,
-    name: 'iOS',
-    store: 'App Store',
-    url: IOS_DOWNLOAD_URL,
-    hint: 'iPhone e iPad',
+    id: 'apk' as const,
+    name: 'APK',
+    label: 'Android',
+    src: '/linkDoApk.jpg',
+    alt: 'QR code para baixar o APK do Soulie',
+    hint: 'Instale o aplicativo',
   },
 ]
 
@@ -91,21 +91,6 @@ function FeatureIcon({ name }: { name: string }) {
   )
 }
 
-function StoreGlyph({ id }: { id: 'android' | 'ios' }) {
-  if (id === 'android') {
-    return (
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M17.6 9.5 19.2 6.8a.6.6 0 0 0-.2-.8.6.6 0 0 0-.8.2l-1.6 2.6A9.3 9.3 0 0 0 12 8a9.3 9.3 0 0 0-4.6.8L5.8 6.2a.6.6 0 1 0-1 .6L6.4 9.5A8.6 8.6 0 0 0 3.5 16h17a8.6 8.6 0 0 0-2.9-6.5ZM8.2 13.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Zm7.6 0a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Z" />
-      </svg>
-    )
-  }
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M16.2 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9s-1.8-1-3-.9c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.3 2.9 2.3 1.2 0 1.6-.7 3-.7s1.7.7 3 .7 2-.1 2.9-2.3c1.1-1.5 1.5-3 1.5-3.1-.1 0-2.8-1.1-2.8-4.2ZM14.7 5.8c.6-.8 1.1-1.8 1-2.8-1 .1-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.8 1.1.1 2.2-.6 2.8-1.5Z" />
-    </svg>
-  )
-}
-
 function App() {
   return (
     <div className="page">
@@ -168,39 +153,21 @@ function App() {
           <p className="section-kicker">Leve o jardim no bolso</p>
           <h2>Baixe o Soulie</h2>
           <p className="section-lead">
-            Aponte a câmera do celular para o QR da sua loja — Android ou iOS.
+            Aponte a câmera do celular: o de cima abre o site, o de baixo baixa o APK.
           </p>
 
           <div className="qr-grid">
-            {stores.map((store) => (
-              <a
-                key={store.id}
-                className={`qr-card qr-card--${store.id}`}
-                href={store.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+            {downloads.map((item) => (
+              <article key={item.id} className={`qr-card qr-card--${item.id}`}>
                 <div className="qr-head">
-                  <span className="qr-badge">
-                    <StoreGlyph id={store.id} />
-                    {store.name}
-                  </span>
-                  <span className="qr-store">{store.store}</span>
+                  <span className="qr-badge">{item.name}</span>
+                  <span className="qr-store">{item.label}</span>
                 </div>
                 <div className="qr-frame">
-                  <QRCodeSVG
-                    value={store.url}
-                    size={200}
-                    fgColor="#14532D"
-                    bgColor="#FFFFFF"
-                    level="M"
-                    marginSize={1}
-                    title={`QR code para baixar o Soulie no ${store.store}`}
-                  />
+                  <img src={item.src} alt={item.alt} />
                 </div>
-                <p className="qr-hint">{store.hint}</p>
-                <span className="qr-action">Abrir link de download</span>
-              </a>
+                <p className="qr-hint">{item.hint}</p>
+              </article>
             ))}
           </div>
         </section>
