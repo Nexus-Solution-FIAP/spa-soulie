@@ -93,11 +93,41 @@
 }
 
 .brand-mark {
-  width: 46px;
-  height: 46px;
-  background: #fff;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
   border-radius: 50%;
-  box-shadow: 0 8px 20px -12px rgba(29, 122, 212, 0.7);
+  overflow: hidden;
+  background: linear-gradient(180deg, #c8ff63 0%, #4ef5d0 52%, #2ed8ff 100%);
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, 0.72),
+    0 8px 22px -10px rgba(46, 216, 255, 0.75);
+}
+
+.brand-mark-aura {
+  position: absolute;
+  inset: -18%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 38%,
+    rgba(212, 255, 122, 0.95) 0%,
+    rgba(140, 255, 99, 0.72) 28%,
+    rgba(78, 240, 212, 0.46) 55%,
+    rgba(58, 212, 255, 0.2) 80%,
+    rgba(58, 212, 255, 0) 100%
+  );
+  pointer-events: none;
+}
+
+.brand-mark img {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
 }
 
 .topbar-cta {
@@ -271,10 +301,12 @@
 }
 
 .qr-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   gap: 22px;
-  margin-top: 28px;
+  margin: 28px auto 0;
+  max-width: 360px;
 }
 
 .qr-card {
@@ -282,29 +314,20 @@
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  text-decoration: none;
   background: var(--card);
   border-radius: var(--radius);
   padding: 22px 20px 20px;
   border: 2px solid transparent;
   box-shadow: var(--shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.qr-card:hover,
-.qr-card:focus-visible {
-  transform: translateY(-4px);
-  box-shadow: 0 22px 40px -22px rgba(22, 163, 74, 0.55);
-  outline: none;
-}
-
-.qr-card--android {
+.qr-card--site {
   background:
     linear-gradient(#fff, #fff) padding-box,
     linear-gradient(160deg, #86efac, #bbf7d0) border-box;
 }
 
-.qr-card--ios {
+.qr-card--apk {
   background:
     linear-gradient(#fff, #fff) padding-box,
     linear-gradient(160deg, #7dd3fc, #bbf7d0) border-box;
@@ -326,13 +349,8 @@
   font-size: 1.15rem;
 }
 
-.qr-badge svg {
-  width: 22px;
-  height: 22px;
-}
-
-.qr-card--android .qr-badge { color: #3d8c40; }
-.qr-card--ios .qr-badge { color: #0f766e; }
+.qr-card--site .qr-badge { color: #3d8c40; }
+.qr-card--apk .qr-badge { color: #0f766e; }
 
 .qr-store {
   font-size: 0.82rem;
@@ -347,22 +365,18 @@
   border: 1px dashed rgba(21, 128, 61, 0.28);
 }
 
-.qr-frame svg {
+.qr-frame img {
   display: block;
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
 }
 
 .qr-hint {
   margin: 0;
   color: var(--muted);
   font-size: 0.92rem;
-}
-
-.qr-action {
-  font-weight: 800;
-  font-size: 0.92rem;
-  color: var(--green-700);
 }
 
 .features,
@@ -550,13 +564,8 @@
 }
 
 @media (max-width: 700px) {
-  .qr-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .qr-frame svg {
+  .qr-frame img {
     width: 184px;
-    height: 184px;
   }
 
   .feature-grid,
